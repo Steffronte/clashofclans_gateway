@@ -1,4 +1,4 @@
-# Clash Royale API Gateway
+# Clash of Clans API Gateway
 
 
 ## How to use
