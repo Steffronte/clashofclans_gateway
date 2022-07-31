@@ -1,11 +1,10 @@
 {
   "name": "clashofclans_gateway",
   "version": "1.0.0",
-  "description": "1. you need to add this IP:",
+  "description": "Coc gateway for varying IP host",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node index.ts",
-    "ts-node": "ts-node",
+    "start": "tsc && node build/index.js",
     "build": "tsc"
   },
   "keywords": [],
@@ -13,14 +12,11 @@
   "license": "ISC",
   "dependencies": {
     "@types/node": "^18.6.3",
+    "@types/cors": "^2.8.7",
+    "@types/express": "^4.17.13",
     "axios": "^0.27.2",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "ts-node": "^9.0.0",
     "typescript": "^4.0.3"
-  },
-  "devDependencies": {
-    "@types/cors": "^2.8.7",
-    "@types/express": "^4.17.8"
   }
 }

@@ -12,8 +12,15 @@ cocapi.get('/cocapi', (req, res) => {
 });
 
 cocapi.use('/cocapi/*', async (req, res) => {
+    if(req.headers.authorization !== process.env.SECRET) {
+        return res.status(401).send({reason: "Invalid secret sent to the gateway"});
+    } 
+
     const url = req.originalUrl.replace('/cocapi', '');
     const token = await getKeyForCurrentIP(res);
+    if(token == null)
+        return; // It means there was an error and response have been sent.
+
     const axiosConfig: AxiosRequestConfig = {
         baseURL: "https://api.clashofclans.com/",
         headers: { Authorization: "Bearer " + token }
@@ -30,7 +37,7 @@ cocapi.use('/cocapi/*', async (req, res) => {
         if(err.response)
             handleResponse(err.response);
         else
-            res.status(400).json({reason:"Erreur inconnue lors de l'appel à l'API COC"});
+            res.status(400).json({reason:"Unknown error durring COC API call"});
     });
 });
 
@@ -101,7 +108,8 @@ const login = async ({ baseUrl, email, password }) => {
       const password = process.env.SC_DEV_PASSWORD;
   
       if (!email || !password) {
-        return res.status(400).json({ error: 'email and password are required' })
+        res.status(400).json({ reason: 'email and password are required' })
+        return null;
       }
   
       const baseUrl = `https://developer.clashofclans.com/api`
@@ -109,7 +117,8 @@ const login = async ({ baseUrl, email, password }) => {
       // login
       const loginResponse = await login({ baseUrl, email, password })
       if (loginResponse?.error) {
-        return res.status(401).send(loginResponse)
+        res.status(401).send(loginResponse)
+        return null;
       }
   
       // get cookie
@@ -146,7 +155,8 @@ const login = async ({ baseUrl, email, password }) => {
         // create new key
         const newKey = await createKey({ baseUrl, cookie, ips})
         if (newKey?.error) {
-          return res.status(500).send(newKey)
+          res.status(500).send(newKey)
+          return null;
         }
   
         validApiKey = newKey.key
