@@ -146,9 +146,9 @@ const login = async ({ baseUrl, email, password }) => {
   
         let ips = [ip];
         for(let i=0; ips.length<4 && i < savedKeys.length -1; i++) {
-          let ips = savedKeys[i].cidrRanges;
-          for(let j=0; j<ips.length && ips.length<4; j++) {
-            ips.push(ips[j]);
+          let keyIps = savedKeys[i].cidrRanges;
+          for(let j=0; j<keyIps.length && ips.length<4; j++) {
+            ips.push(keyIps[j]);
           }
         }
   
