@@ -1,12 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import axios from 'axios';
-import { cocapi } from './apis';
-
-setInterval(() => {
-    axios.get('https://apis-gateway.herokuapp.com');
-    console.log('self ping each 20 minutes...');
-}, 9e5)
+import cocapi from './cocapi';
 
 let app = express();
 app.use(express.json());
